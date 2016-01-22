@@ -1,0 +1,8 @@
+{
+  "presets": ["react"],
+  "plugins": [
+    "external-helpers",
+    "transform-export-extensions",
+    "transform-object-rest-spread"
+  ]
+}
