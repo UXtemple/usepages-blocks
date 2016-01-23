@@ -4,10 +4,11 @@ import React, { Component, PropTypes } from 'react';
 class Vertical extends Component {
   render() {
     const { context, props } = this;
+    const renderBlocks = context.renderBlocks || props.renderBlocks;
 
     return (
       <div style={{...props.style, ...style}}>
-        {context.renderBlocks(props.blocks, 'vertical')}
+        {renderBlocks(props.blocks, 'vertical')}
       </div>
     );
   }
