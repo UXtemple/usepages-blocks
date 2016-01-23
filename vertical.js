@@ -14,7 +14,7 @@ class Vertical extends Component {
   }
 }
 Vertical.contextTypes = {
-  renderBlocks: PropTypes.func.isRequired
+  renderBlocks: PropTypes.func
 };
 export default Vertical;
 
