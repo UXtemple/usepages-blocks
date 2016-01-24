@@ -8,3 +8,4 @@ export Title from './title';
 export Text from './text';
 export Unknown from './unknown';
 export Vertical from './vertical';
+export Vimeo from './vimeo';
