@@ -2,6 +2,7 @@
   "presets": ["react"],
   "plugins": [
     "external-helpers",
+    "transform-es2015-destructuring",
     "transform-export-extensions",
     "transform-object-rest-spread"
   ]
