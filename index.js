@@ -1,5 +1,6 @@
 export Action from './action';
 export Code from './code';
+export Embed from './embed';
 export Horizontal from './horizontal';
 export Image from './image';
 export Link from './link';
