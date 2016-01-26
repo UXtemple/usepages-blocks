@@ -1,32 +1,16 @@
 import React from 'react';
-import toSlugCase from 'to-slug-case';
-
-function toCSS(obj) {
-  return Object.keys(obj).map(rawKey => {
-    let key = toSlugCase(rawKey);
-    if (/^webkit/.test(key) || /^moz/.test(key) || /^ms/.test(key)) {
-      key = `-${key}`;
-    }
-
-    let value = obj[rawKey];
-    if (typeof value === 'number') {
-      value = `${value}px`;
-    }
-
-    return `${key}:${value} !important;`;
-  }).join('');
-}
+import toCSS from 'style-to-css';
 
 export default props => {
   const className = `Input-${Date.now()}`;
   let inlineStyle;
 
-  if (props.hoverStyle) {
-    inlineStyle = `.${className}:hover {${toCSS(props.hoverStyle)}}`;
+  if (props.styleHover) {
+    inlineStyle = `.${className}:hover {${toCSS(props.styleHover)}}`;
   }
 
   return (
-    <div>
+    <div style={props.styleWrapper}>
       <input
         className={className}
         type={props.type}
