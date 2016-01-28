@@ -8,6 +8,8 @@ export default class Code extends Component {
 
   componentDidMount() {
     const editor = ace.edit(this.id);
+    this.editor = editor;
+
     const session = editor.getSession();
 
     session.setMode(`ace/mode/${this.props.mode}`);
@@ -20,15 +22,14 @@ export default class Code extends Component {
     editor.setTheme(`ace/theme/${this.props.theme}`);
     editor.setOption('readOnly', true);
     editor.setOption('wrap', this.props.wrap);
+
     if (this.props.src) {
       fetch(this.props.src)
         .then(res => res.text())
         .then(code => this.editor.setValue(code, -1));
-    } else {
+    } else if (this.props.code) {
       editor.setValue(this.props.code, -1);
     }
-
-    this.editor = editor;
   }
 
   componentDidUpdate(prevProps) {
