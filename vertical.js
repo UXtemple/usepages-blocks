@@ -1,24 +1,4 @@
-import { flexDirectionColumn, flexWrapWrap } from 'browser-vendor-prefix';
-import React, { Component, PropTypes } from 'react';
+import { flexDirectionColumn } from 'browser-vendor-prefix';
+import createGroup from './create-group';
 
-class Vertical extends Component {
-  render() {
-    const { context, props } = this;
-    const renderBlocks = context.renderBlocks || props.renderBlocks;
-
-    return (
-      <div style={{...props.style, ...style}}>
-        {renderBlocks(props.blocks, 'vertical')}
-      </div>
-    );
-  }
-}
-Vertical.contextTypes = {
-  renderBlocks: PropTypes.func
-};
-export default Vertical;
-
-const style = {
-  ...flexDirectionColumn,
-  ...flexWrapWrap
-};
+export default createGroup('Vertical', flexDirectionColumn);

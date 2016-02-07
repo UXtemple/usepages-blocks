@@ -1,4 +1,4 @@
-import { Action } from 'panels-ui';
+import { Teleport } from 'panels-ui';
 import React, { Component } from 'react';
 
 class Launcher extends Component {
@@ -33,9 +33,9 @@ class Launcher extends Component {
         </div>
 
         {text && (
-          <Action href={href} style={props.action.style}>
+          <Teleport href={href} style={props.action.style}>
             {props.action.text}
-          </Action>
+          </Teleport>
         )}
       </div>
     );
