@@ -5,7 +5,7 @@
   "main": "dist/cjs.js",
   "scripts": {
     "bundle": "rollup -c .rollup/cjs.js && rollup -c .rollup/next.js",
-    "postpublish": "rm -rf dist && git checkout package.json && git push --tags",
+    "postpublish": "rm -rf dist && git checkout package.json && git push && git push --tags",
     "prepublish": "npm run bundle",
     "push": "git tag $(npm version $VERSION) && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
