@@ -1,5 +1,6 @@
 import { flexWrapWrap } from 'browser-vendor-prefix';
 import { Teleport } from 'panels-ui';
+import { write as copyToClipboard } from 'clipboard-tool';
 import React, { Component, PropTypes } from 'react';
 
 export default function createGroup(name, style) {
@@ -24,7 +25,12 @@ export default function createGroup(name, style) {
       }
 
       if (onClick) {
-        baseProps.onClick = onClick;
+        if (/^copy:/.test(onClick)) {
+          const from = onClick.match(/^copy:(.+)/)[1];
+          baseProps.onClick = () => copyToClipboard(document.querySelector(from).innerText);
+        } else {
+          baseProps.onClick = onClick;
+        }
       }
 
       return (

@@ -34,6 +34,8 @@ export default class Code extends Component {
     } else if (props.code) {
       editor.setValue(props.code, -1);
     }
+
+    this.refs.code.querySelector('.ace_text-layer').id = this.props.id;
   }
 
   componentDidUpdate(prevProps) {
@@ -52,6 +54,10 @@ export default class Code extends Component {
     if (prevProps.highlightActiveLine !== props.highlightActiveLine) {
       editor.setHighlightActiveLine(props.highlightActiveLine);
     }
+    if (prevProps.id !== props.id) {
+      this.refs.code.querySelector('.ace_text-layer').id = props.id;
+    }
+
     if (prevProps.readyOnly !== props.readOnly) {
       editor.setOption('readOnly', props.readOnly);
     }
@@ -82,7 +88,7 @@ export default class Code extends Component {
           }
         `}</style>
 
-        <div id={this.id} style={{...style, ...this.props.style}}></div>
+        <div id={this.id} ref='code' style={{...style, ...this.props.style}}></div>
       </div>
     );
   }
