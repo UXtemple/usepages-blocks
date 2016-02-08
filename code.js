@@ -8,29 +8,31 @@ export default class Code extends Component {
   }
 
   componentDidMount() {
+    const { props } = this;
     const editor = ace.edit(this.id);
     this.editor = editor;
 
     const session = editor.getSession();
 
-    session.setMode(`ace/mode/${this.props.mode}`);
+    session.setMode(`ace/mode/${props.mode}`);
     session.setTabSize(2);
     session.setUseSoftTabs(true);
     session.setUseWrapMode(true);
 
     editor.setDisplayIndentGuides(false);
     editor.setFontSize(12);
-    editor.setTheme(`ace/theme/${this.props.theme}`);
-    editor.setOption('readOnly', this.props.readOnly);
-    editor.setOption('wrap', this.props.wrap);
-    editor.renderer.setShowGutter(this.props.gutter);
+    editor.setHighlightActiveLine(props.highlightActiveLine);
+    editor.setTheme(`ace/theme/${props.theme}`);
+    editor.setOption('readOnly', props.readOnly);
+    editor.setOption('wrap', props.wrap);
+    editor.renderer.setShowGutter(props.gutter);
 
-    if (this.props.src) {
-      fetch(this.props.src)
+    if (props.src) {
+      fetch(props.src)
         .then(res => res.text())
         .then(code => this.editor.setValue(code, -1));
-    } else if (this.props.code) {
-      editor.setValue(this.props.code, -1);
+    } else if (props.code) {
+      editor.setValue(props.code, -1);
     }
   }
 
@@ -46,6 +48,9 @@ export default class Code extends Component {
     }
     if (prevProps.gutter !== props.gutter) {
       editor.renderer.setShowGutter(props.gutter);
+    }
+    if (prevProps.highlightActiveLine !== props.highlightActiveLine) {
+      editor.setHighlightActiveLine(props.highlightActiveLine);
     }
     if (prevProps.readyOnly !== props.readOnly) {
       editor.setOption('readOnly', props.readOnly);
@@ -85,6 +90,7 @@ export default class Code extends Component {
 
 Code.defaultProps = {
   gutter: true,
+  highlightActiveLine: true,
   mode: 'json',
   theme: 'idle_fingers',
   wrap: 40
