@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import uniqueId from 'mini-unique-id';
 
 export default class Code extends Component {
   constructor(props) {
     super(props);
-    this.id = `code-${Date.now()}`;
+    this.id = `code-${uniqueId()}`;
   }
 
   componentDidMount() {
@@ -20,8 +21,9 @@ export default class Code extends Component {
     editor.setDisplayIndentGuides(false);
     editor.setFontSize(12);
     editor.setTheme(`ace/theme/${this.props.theme}`);
-    editor.setOption('readOnly', true);
+    editor.setOption('readOnly', this.props.readOnly);
     editor.setOption('wrap', this.props.wrap);
+    editor.renderer.setShowGutter(this.props.gutter);
 
     if (this.props.src) {
       fetch(this.props.src)
@@ -33,16 +35,28 @@ export default class Code extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.mode !== this.props.mode) {
-      this.editor.getSession().setMode(`ace/mode/${this.props.mode}`);
+    const { editor, props } = this;
+    const session = editor.getSession();
+
+    if (prevProps.mode !== props.mode) {
+      session.setMode(`ace/mode/${props.mode}`);
     }
-    if (prevProps.code !== this.props.code) {
-      this.editor.setValue(this.props.code, -1);
+    if (prevProps.code !== props.code) {
+      editor.setValue(props.code, -1);
     }
-    if (prevProps.src !== this.props.src) {
-      fetch(this.props.src)
+    if (prevProps.gutter !== props.gutter) {
+      editor.renderer.setShowGutter(props.gutter);
+    }
+    if (prevProps.readyOnly !== props.readOnly) {
+      editor.setOption('readOnly', props.readOnly);
+    }
+    if (prevProps.src !== props.src) {
+      fetch(props.src)
         .then(res => res.text())
-        .then(code => this.editor.setValue(code, -1));
+        .then(code => editor.setValue(code, -1));
+    }
+    if (prevProps.wrap !== props.wrap) {
+      editor.setOption('wrap', props.wrap);
     }
   }
 
@@ -70,6 +84,7 @@ export default class Code extends Component {
 }
 
 Code.defaultProps = {
+  gutter: true,
   mode: 'json',
   theme: 'idle_fingers',
   wrap: 40

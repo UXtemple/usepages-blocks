@@ -1,8 +1,9 @@
 import React from 'react';
 import toCSS from 'style-to-css';
+import uniqueId from 'mini-unique-id';
 
 export default props => {
-  const className = `Input-${Date.now()}`;
+  const className = `Input-${uniqueId()}`;
   let inlineStyle;
 
   if (props.styleHover) {
