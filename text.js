@@ -1,3 +1,7 @@
 import React from 'react';
 
-export default props => <p style={props.style}>{props.text}</p>;
+export default props => {
+  const Element = props.element || 'div';
+
+  return <Element style={props.style}>{props.text}</Element>;
+};

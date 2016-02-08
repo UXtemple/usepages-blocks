@@ -4,7 +4,6 @@ export Horizontal from './horizontal';
 export Image from './image';
 export Input from './input';
 export Launcher from './launcher';
-export Title from './title';
 export Text from './text';
 export Unknown from './unknown';
 export Vertical from './vertical';
