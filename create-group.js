@@ -1,6 +1,6 @@
 import { flexWrapWrap } from 'browser-vendor-prefix';
 import { Teleport } from 'panels-ui';
-import { write as copyToClipboard } from 'clipboard-tool';
+import copyToClipboard from './copy-to-clipboard';
 import React, { Component, PropTypes } from 'react';
 
 export default function createGroup(name, style) {
