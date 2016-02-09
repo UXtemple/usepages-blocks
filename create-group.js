@@ -1,6 +1,7 @@
 import { flexWrapWrap } from 'browser-vendor-prefix';
 import { Teleport } from 'panels-ui';
-import copyToClipboard from './copy-to-clipboard';
+import GoTo from './go-to';
+import OnClick from './on-click';
 import React, { Component, PropTypes } from 'react';
 
 export default function createGroup(name, style) {
@@ -17,20 +18,14 @@ export default function createGroup(name, style) {
         Base = Teleport;
         baseProps.to = teleportTo;
       } else if (goTo) {
-        Base = 'a';
+        Base = GoTo;
         baseProps.href = goTo;
         baseProps.target = '_blank';
+      } else if (onClick) {
+        Base = OnClick;
+        baseProps.onClick = onClick;
       } else {
         Base = 'div';
-      }
-
-      if (onClick) {
-        if (/^copy:/.test(onClick)) {
-          const from = onClick.match(/^copy:(.+)/)[1];
-          baseProps.onClick = () => copyToClipboard(document.querySelector(from).innerText);
-        } else {
-          baseProps.onClick = onClick;
-        }
       }
 
       return (
