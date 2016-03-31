@@ -33,16 +33,23 @@ export default class OnClick extends Component {
         active: true
       });
 
-      setTimeout(() => {
+      this.onClickTimeout = setTimeout(() => {
         this.setState({
           active: false
         });
+        this.onClickTimeout = null;
       }, RESET_ACTIVE_TIMEOUT);
     }
   }
 
   componentWillMount() {
     this.bindOnClick(this.props.onClick);
+  }
+
+  componentWillUnmount() {
+    if (this.onClickTimeout) {
+      clearTimeout(this.onClickTimeout);
+    }
   }
 
   componentWillUpdate(nextProps) {
