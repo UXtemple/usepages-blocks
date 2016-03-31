@@ -1,29 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
-export default props => {
-  const className = `Input-${uniqueId()}`;
-  let inlineStyle;
+export default class extends Component {
+  render() {
+    const { props } = this;
 
-  if (props.styleHover) {
-    inlineStyle = `.${className}:hover {${toCSS(props.styleHover)}}`;
+    const className = `Input-${uniqueId()}`;
+    let inlineStyle;
+
+    if (props.styleHover) {
+      inlineStyle = `.${className}:hover {${toCSS(props.styleHover)}}`;
+    }
+
+    return (
+      <div style={props.styleWrapper}>
+        <input
+          className={className}
+          placeholder={props.placeholder}
+          ref='input'
+          style={{...style, ...props.style}}
+          type={props.type} />
+        <style>
+          {inlineStyle}
+        </style>
+      </div>
+    );
   }
-
-  return (
-    <div style={props.styleWrapper}>
-      <input
-        className={className}
-        type={props.type}
-        placeholder={props.placeholder}
-        style={{...style, ...props.style}} />
-      <style>
-        {inlineStyle}
-      </style>
-    </div>
-  );
 }
-
 const style = {
   "backgroundColor": "white",
   "border": "2px solid #939598",
