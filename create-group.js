@@ -8,8 +8,7 @@ export default function createGroup(name, style) {
   class Group extends Component {
     render() {
       const { blocks, goTo, onClick, style: baseStyle, teleportTo, renderBlocks: propsRenderBlocks, ...rest } = this.props;
-      const { context } = this;
-      const renderBlocks = context.renderBlocks || propsRenderBlocks;
+      const renderBlocks = this.context.renderBlocks || propsRenderBlocks;
 
       const baseProps = {};
       let Base;
