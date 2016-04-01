@@ -7,10 +7,14 @@ export default class extends Component {
     const { props } = this;
 
     const className = `Input-${uniqueId()}`;
-    let inlineStyle;
+    let inlineStyle = `.${className}:-webkit-autofill {
+      box-shadow: 0 0 0px 1000px white inset;
+      background-color: ${props.style.backgroundColor || 'transparent'} !important;
+      color: ${props.style.color || 'black'} !important;
+    }`;
 
     if (props.styleHover) {
-      inlineStyle = `.${className}:hover {${toCSS(props.styleHover)}}`;
+      inlineStyle = `${inlineStyle} .${className}:hover {${toCSS(props.styleHover)}}`;
     }
 
     return (
@@ -19,7 +23,7 @@ export default class extends Component {
           className={className}
           placeholder={props.placeholder}
           ref='input'
-          style={{...style, ...props.style}}
+          style={props.style}
           type={props.type} />
         <style>
           {inlineStyle}
@@ -28,16 +32,3 @@ export default class extends Component {
     );
   }
 }
-const style = {
-  "backgroundColor": "white",
-  "border": "2px solid #939598",
-  "borderRadius": 5,
-  "color": "#939598",
-  "fontWeight": "400",
-  "fontSize": 12,
-  "height": 40,
-  outline: 0,
-  "paddingLeft": 10,
-  "paddingRight": 20,
-  "transition": "border 0.1s linear"
-};
