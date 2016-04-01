@@ -8,8 +8,8 @@ export default class extends Component {
 
     const className = `Input-${uniqueId()}`;
     let inlineStyle = `.${className}:-webkit-autofill {
-      box-shadow: 0 0 0px 1000px white inset;
       background-color: ${props.style.backgroundColor || 'transparent'} !important;
+      box-shadow: 0 0 0px 1000px ${props.style.backgroundColor || 'transparent'} inset;
       color: ${props.style.color || 'black'} !important;
     }`;
 
@@ -20,6 +20,7 @@ export default class extends Component {
     return (
       <div style={props.styleWrapper}>
         <input
+          autoComplete='off'
           className={className}
           placeholder={props.placeholder}
           ref='input'
