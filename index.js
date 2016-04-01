@@ -3,6 +3,7 @@ export Embed from './embed';
 export Horizontal from './horizontal';
 export Image from './image';
 export Input from './input';
+export Knocking from './knocking';
 export Launcher from './launcher';
 export List from './list';
 export Text from './text';
