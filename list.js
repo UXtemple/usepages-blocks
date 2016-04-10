@@ -33,7 +33,7 @@ export default class List extends Component {
   render() {
     const { props } = this;
     const list = Array.isArray(props.list) ? props.list : [];
-    const renderBlocks = this.context.renderBlocks || propsRenderBlocks;
+    const renderBlocks = this.context.renderBlocks || props.renderBlocks;
 
     return (
       <div>
