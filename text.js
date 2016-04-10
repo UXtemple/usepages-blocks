@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default props => {
-  const Element = props.element || 'div';
-
-  return <Element style={props.style}>{props.text}</Element>;
-};
+export default ({element: Element='div', style, text=''}) => (
+  <Element style={style}>
+    {text.split('\n')}
+  </Element>
+);
