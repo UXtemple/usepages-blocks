@@ -10,5 +10,6 @@ document.addEventListener('copy', ev => {
 
 export default function copyToClipboard(text) {
   clipboardText = text;
+  // debugger
   document.execCommand('copy');
 }

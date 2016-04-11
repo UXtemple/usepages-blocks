@@ -19,7 +19,14 @@ export default class OnClick extends Component {
 
     if (/^copy:/.test(onClick)) {
       const from = onClick.match(/^copy:(.+)/)[1];
-      finalOnClick = () => copyToClipboard(document.querySelector(from).innerText);
+
+      finalOnClick = () => {
+        const $el = document.querySelector(from);
+        const $editor = Array.from($el.childNodes).find($c => $c.classList.contains('ace_editor'));
+        const text = $editor ? ace.edit($editor.id).getValue() : $el.innerText;
+
+        copyToClipboard(text);
+      };
     } else if (typeof onClick === 'function') {
       finalOnClick = onClick;
     } else {

@@ -34,8 +34,6 @@ export default class Code extends Component {
     } else if (props.code) {
       editor.setValue(props.code, -1);
     }
-
-    this.refs.code.querySelector('.ace_text-layer').id = this.props.id;
   }
 
   componentDidUpdate(prevProps) {
@@ -53,9 +51,6 @@ export default class Code extends Component {
     }
     if (prevProps.highlightActiveLine !== props.highlightActiveLine) {
       editor.setHighlightActiveLine(props.highlightActiveLine);
-    }
-    if (prevProps.id !== props.id) {
-      this.refs.code.querySelector('.ace_text-layer').id = props.id;
     }
 
     if (prevProps.readyOnly !== props.readOnly) {
@@ -75,7 +70,7 @@ export default class Code extends Component {
     const { id } = this;
 
     return (
-      <div>
+      <div id={this.props.id}>
         <style>{`
           #${id} span {
             display: inline;
@@ -88,7 +83,7 @@ export default class Code extends Component {
           }
         `}</style>
 
-        <div id={this.id} ref='code' style={{...style, ...this.props.style}}></div>
+        <div id={id} style={{...style, ...this.props.style}}></div>
       </div>
     );
   }
