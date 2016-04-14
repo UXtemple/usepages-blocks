@@ -6,11 +6,13 @@ export default class extends Component {
   render() {
     const { props } = this;
 
+    const backgroundColor = (props.style && props.style.backgroundColor) || 'transparent';
+    const color = (props.style && props.style.color) || 'black';
     const className = `Input-${uniqueId()}`;
     let inlineStyle = `.${className}:-webkit-autofill {
-      background-color: ${props.style.backgroundColor || 'transparent'} !important;
-      box-shadow: 0 0 0px 1000px ${props.style.backgroundColor || 'transparent'} inset;
-      color: ${props.style.color || 'black'} !important;
+      background-color: ${backgroundColor} !important;
+      box-shadow: 0 0 0px 1000px ${backgroundColor} inset;
+      color: ${color} !important;
     }`;
 
     if (props.styleHover) {
