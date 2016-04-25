@@ -7,7 +7,7 @@ import React, { Component, PropTypes } from 'react';
 export default function createGroup(name, style) {
   class Group extends Component {
     render() {
-      const { blocks, goTo, onClick, style: baseStyle, teleportTo, renderBlocks: propsRenderBlocks, ...rest } = this.props;
+      const { blocks, children, goTo, onClick, style: baseStyle, teleportTo, renderBlocks: propsRenderBlocks, ...rest } = this.props;
       const renderBlocks = this.context.renderBlocks || propsRenderBlocks;
 
       const baseProps = {};
@@ -29,7 +29,7 @@ export default function createGroup(name, style) {
 
       return (
         <Base style={{...baseStyle, ...style, ...flexWrapWrap}} {...rest} {...baseProps}>
-          {renderBlocks(blocks, name)}
+          {children || renderBlocks(blocks, name)}
         </Base>
       );
     }
