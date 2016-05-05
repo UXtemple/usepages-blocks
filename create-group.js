@@ -1,5 +1,5 @@
-import { flexWrapWrap } from 'browser-vendor-prefix';
 import { Teleport } from 'panels-ui';
+import blockShape from './block-shape';
 import GoTo from './go-to';
 import OnClick from './on-click';
 import React, { Component, PropTypes } from 'react';
@@ -7,12 +7,11 @@ import React, { Component, PropTypes } from 'react';
 export default function createGroup(name, style) {
   class Group extends Component {
     render() {
-      const { blocks, children, goTo, onClick, style: baseStyle, teleportTo, renderBlocks: propsRenderBlocks, ...rest } = this.props;
-      const renderBlocks = this.context.renderBlocks || propsRenderBlocks;
+      const { blocks, children, goTo, onClick, style: baseStyle, teleportTo, ...rest } = this.props;
+      const { renderBlocks } = this.context;
 
       const baseProps = {};
       let Base;
-
       if (teleportTo) {
         Base = Teleport;
         baseProps.to = teleportTo;
@@ -28,15 +27,51 @@ export default function createGroup(name, style) {
       }
 
       return (
-        <Base style={{...baseStyle, ...style, ...flexWrapWrap}} {...rest} {...baseProps}>
-          {children || renderBlocks(blocks, name)}
+        <Base style={{...baseStyle, ...style, flexWrap: 'wrap'}} {...rest} {...baseProps}>
+          {children || (typeof renderBlocks === 'function' && renderBlocks(blocks, name))}
         </Base>
       );
     }
   }
-  Group.displayName = name;
+
   Group.contextTypes = {
     renderBlocks: PropTypes.func
   };
+
+  Group.defaultProps = {
+    blocks: [],
+    style: {},
+    styleActive: {},
+    styleHover: {}
+  };
+
+  Group.description = `${name} lets you nest elements.
+  They also have some super powers :).
+  Use:
+    - the teleportTo prop to connect to another panel;
+    - the onClick prop to turn this into a button that runs a function when clicked; or
+    - the goTo prop to link to an external website.`;
+
+  Group.displayName = name;
+
+  Group.propTypes = {
+    blocks: PropTypes.arrayOf(blockShape).isRequired,
+
+    goTo: PropTypes.string,
+
+    onClick: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func
+    ]),
+
+    style: PropTypes.object,
+
+    styleActive: PropTypes.object,
+
+    styleHover: PropTypes.object,
+
+    teleportTo: PropTypes.string
+  };
+
   return Group;
 }

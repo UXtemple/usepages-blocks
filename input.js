@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
-export default class extends Component {
+class Input extends Component {
   render() {
     const { props } = this;
 
@@ -35,3 +35,24 @@ export default class extends Component {
     );
   }
 }
+
+Input.description = `This is how you enter data.
+The type prop tells how this behaves, it's a text field by default but it could be email, password, etc.`;
+
+Input.defaultProps = {
+  placeholder: '',
+  style: {},
+  styleHover: {},
+  styleWrapper: {},
+  type: 'text'
+};
+
+Input.propTypes = {
+  placeholder: PropTypes.string,
+  style: PropTypes.object,
+  styleHover: PropTypes.object,
+  styleWrapper: PropTypes.object,
+  type: PropTypes.string.isRequired
+};
+
+export default Input;

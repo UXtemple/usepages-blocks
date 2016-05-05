@@ -1,5 +1,5 @@
 import Code from './code';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Text from './text';
 
 const Preview = ({block: Block, props={}}) => {
@@ -24,6 +24,13 @@ const Preview = ({block: Block, props={}}) => {
     );
   }
 };
+
+Preview.propTypes = {
+  block: PropTypes.any,
+
+  props: PropTypes.object
+};
+
 export default Preview;
 
 const styles = {
