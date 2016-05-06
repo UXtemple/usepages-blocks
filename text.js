@@ -12,7 +12,7 @@ Text.defaultProps = {
   text: 'Write some text'
 };
 
-Text.description = `Write some text. Use multiplines by writing \\n like New\\nline.`;
+Text.description = `Write some text. Use multiplines by writing "\\n" like "New\\nline".`;
 
 Text.propTypes = {
   element: PropTypes.any,

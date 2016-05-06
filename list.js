@@ -54,7 +54,7 @@ List.defaultProps = {
   block: {
     block: 'Text',
     props: {
-      block: 'item.text'
+      text: 'item.text'
     }
   },
 
@@ -66,10 +66,7 @@ List.defaultProps = {
 };
 
 List.description = `For things that need to be repeated :).
-Within your block you get access to a special keyword item which is a reference to every item on the
-list. Use it to show dynamic data.
-PS: A list can take data from outside the panel, e.g.: props.blocks would use the blocks given by
-the props. You can test this in pages by setting blocks: [] in states.`;
+Within your block you get access to a special keyword item which is a reference to every item on the list. Use it to show dynamic data. PS: A list can take data from outside the panel, e.g.: props.blocks would use the blocks given by the props. You can test this in pages by setting blocks: [] in states.`;
 
 List.propTypes = {
   block: blockShape.isRequired,

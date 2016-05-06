@@ -45,12 +45,8 @@ export default function createGroup(name, style) {
     styleHover: {}
   };
 
-  Group.description = `${name} lets you nest elements.
-  They also have some super powers :).
-  Use:
-    - the teleportTo prop to connect to another panel;
-    - the onClick prop to turn this into a button that runs a function when clicked; or
-    - the goTo prop to link to an external website.`;
+  Group.description = `${name} lets you nest elements. They also have some super powers :).
+Use the teleportTo prop to connect to another panel, onClick prop to turn this into a button that runs a function when clicked; or the goTo prop to link to an external website.`;
 
   Group.displayName = name;
 

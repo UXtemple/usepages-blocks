@@ -5,12 +5,13 @@ const Image = ({src, text, style, styleWrapper}) => (
     <img
       alt={text}
       src={src}
-      style={style} />
+      style={style}
+      title={text} />
   </div>
 );
 
 Image.defaultProps = {
-  src: 'https://usepages.today/image-placeholder.svg',
+  src: 'https://files.usepages.today/usepages.today/image-placeholder.svg',
   style: {},
   styleWrapper: {},
   text: 'Alternative text'
