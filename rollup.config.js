@@ -8,10 +8,8 @@ export default {
   plugins: [
     babel({
       exclude: 'node_modules/**',
-      presets: [
-        'es2015-rollup',
-        'react'
-      ]
+      plugins: ['external-helpers'],
+      presets: ['es-uxtemple']
     })
   ]
 };
