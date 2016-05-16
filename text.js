@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-const Text = ({element: Element='div', lineBreak, style, text}) => (
-  <Element style={style}>
+const Text = ({element: Element='div', lineBreak, _pages={}, style, text}) => (
+  <Element style={style} {..._pages}>
     {`${text}`.split('\n').map((t, i) => <div key={i} style={i ? {marginTop: lineBreak} : {}}>{t}</div>)}
   </Element>
 );

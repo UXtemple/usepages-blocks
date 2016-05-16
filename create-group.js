@@ -7,7 +7,7 @@ import React, { Component, PropTypes } from 'react';
 export default function createGroup(name, style) {
   class Group extends Component {
     render() {
-      const { blocks, children, goTo, onClick, style: baseStyle, teleportTo, ...rest } = this.props;
+      const { blocks, children, goTo, onClick, style: baseStyle, teleportTo, _pages={}, ...rest } = this.props;
       const { renderBlocks } = this.context;
 
       const baseProps = {};
@@ -27,8 +27,8 @@ export default function createGroup(name, style) {
       }
 
       return (
-        <Base style={{...baseStyle, ...style, flexWrap: 'wrap'}} {...rest} {...baseProps}>
-          {children || (typeof renderBlocks === 'function' && renderBlocks(blocks, name))}
+        <Base style={{...baseStyle, ...style, flexWrap: 'wrap'}} {...rest} {...baseProps} {..._pages}k>
+          {children || (typeof renderBlocks === 'function' && renderBlocks(blocks, `${_pages.path}/props/blocks`))}
         </Base>
       );
     }

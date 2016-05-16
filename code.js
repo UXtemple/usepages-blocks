@@ -67,10 +67,11 @@ export default class Code extends Component {
   }
 
   render() {
-    const { id } = this;
+    const { id, props } = this;
+    const _pages = props._pages || {};
 
     return (
-      <div id={this.props.id}>
+      <div id={props.id} {..._pages}>
         <style>{`
           #${id} span {
             display: inline;
@@ -83,7 +84,7 @@ export default class Code extends Component {
           }
         `}</style>
 
-        <div id={id} style={{...style, ...this.props.style}}></div>
+        <div id={id} style={{...style, ...props.style}}></div>
       </div>
     );
   }

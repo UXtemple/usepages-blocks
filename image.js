@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-const Image = ({src, text, style, styleWrapper}) => (
-  <div style={styleWrapper}>
+const Image = ({_pages={}, text, src, style, styleWrapper}) => (
+  <div style={styleWrapper} {..._pages}>
     <img
       alt={text}
       src={src}

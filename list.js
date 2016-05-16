@@ -1,7 +1,6 @@
 import blockShape from './block-shape';
 import Knocking from './knocking';
 import React, { Component, PropTypes } from 'react';
-import uniqueId from 'mini-unique-id';
 
 function raw(props={}, superProps={}) {
   let rawProps = {};
@@ -95,7 +94,7 @@ class List extends Component {
   }
 
   render() {
-    const { block } = this.props;
+    const { block, _pages={} } = this.props;
     const { error, list, isLoading, isReady } = this.state;
     const blocks = list.map(item => morph(block, item));
 
@@ -106,7 +105,7 @@ class List extends Component {
     } else if (list.length === 0) {
       return <div>Looks like your list is empty, try adding some data to it!</div>;
     } else {
-      return <div>{this.context.renderBlocks(blocks, `list-${uniqueId()}`)}</div>;
+      return <div {..._pages}>{this.context.renderBlocks(blocks, `${_pages}/props/block`)}</div>;
     }
   }
 }

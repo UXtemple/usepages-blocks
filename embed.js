@@ -55,7 +55,7 @@ class Embed extends Component {
 
   render() {
     const { data, error, isLoading, isReady, showCover } = this.state;
-    const { height, overCover, width } = this.props;
+    const { height, overCover, _pages={}, width } = this.props;
     const embedStyle = {
       height,
       width,
@@ -80,7 +80,7 @@ class Embed extends Component {
       ret = <div>{typeof message === 'undefined' ?  'Do you src in your props?' : message}</div>;
     }
 
-    return <div style={embedStyle}>{ret}</div>;
+    return <div style={embedStyle} {..._pages}>{ret}</div>;
   }
 }
 Embed.defaultProps = {

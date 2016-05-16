@@ -2,12 +2,12 @@ import Code from './code';
 import React, { PropTypes } from 'react';
 import Text from './text';
 
-const Preview = ({block: Block, props={}}) => {
+const Preview = ({block: Block, _pages={}, props={}}) => {
   if (typeof Block === 'function') {
     return <Block {...props} />;
   } else {
     return (
-      <div style={styles.preview}>
+      <div style={styles.preview} {..._pages}>
         <Text style={styles.text} text={`In an ideal world I'd be rendering "${Block}" with these props:`} />
 
         <Code code={JSON.stringify(props)}

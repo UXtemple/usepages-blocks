@@ -7,8 +7,9 @@ class Input extends Component {
     const { props } = this;
 
     const backgroundColor = (props.style && props.style.backgroundColor) || 'transparent';
-    const color = (props.style && props.style.color) || 'black';
     const className = `Input-${uniqueId()}`;
+    const color = (props.style && props.style.color) || 'black';
+    const _pages = props._pages || {};
     let inlineStyle = `.${className}:-webkit-autofill {
       background-color: ${backgroundColor} !important;
       box-shadow: 0 0 0px 1000px ${backgroundColor} inset;
@@ -20,7 +21,7 @@ class Input extends Component {
     }
 
     return (
-      <div style={props.styleWrapper}>
+      <div style={props.styleWrapper} {..._pages}>
         <input
           autoComplete='off'
           className={className}

@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import Waiting from 'waiting';
 
-const Knocking = ({style={}, size}) => (
-  <div style={style}>
+const Knocking = ({_pages={}, style={}, size}) => (
+  <div style={style} {...pages}>
     <Waiting color={style.color} size={size} />
   </div>
 );
