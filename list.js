@@ -2,11 +2,23 @@ import blockShape from './block-shape';
 import Knocking from './knocking';
 import React, { Component, PropTypes } from 'react';
 
-function raw(props={}, superProps={}) {
-  let rawProps = {};
+function morph(block, item) {
+  return {
+    ...block,
+    props: raw(block.props, item)
+  };
+}
+
+function raw(props = {}, superProps = {}) {
+  const rawProps = {};
 
   Object.keys(props).forEach(key => {
-    const match = typeof props[key] === 'string' && props[key].match(/^item\.(.+)/) || props[key] === 'item';
+    const match = (
+      typeof props[key] === 'string' &&
+      props[key].match(/^item\.(.+)/) ||
+      props[key] === 'item'
+    );
+
     if (match) {
       rawProps[key] = superProps[match[1]];
     } else {
@@ -23,13 +35,6 @@ function raw(props={}, superProps={}) {
   return rawProps;
 }
 
-function morph(block, item) {
-  return {
-    ...block,
-    props: raw(block.props, item)
-  };
-}
-
 class List extends Component {
   constructor(props) {
     super(props);
@@ -43,12 +48,15 @@ class List extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.list !== prevProps.list) {
-      this.setState(this._getState(this.props));
+  componentWillReceiveProps(nextProps) {
+    if (this.props.list !== nextProps.list) {
+      this.setState(this._getState(nextProps));
     }
+  }
 
-    if (this.state.isReady !== prevState.isReady && !(this.state.error || this.state.isLoading || this.state.isReady)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isReady !== prevState.isReady &&
+        !(this.state.error || this.state.isLoading || this.state.isReady)) {
       this._fetch();
     }
   }
@@ -72,12 +80,12 @@ class List extends Component {
         isLoading: false,
         isReady: true
       });
-    } catch(err) {
+    } catch (err) {
       this.setState({
         error: true,
         isLoading: false,
         isReady: false
-      })
+      });
     }
   }
 
@@ -94,19 +102,25 @@ class List extends Component {
   }
 
   render() {
-    const { block, _pages={} } = this.props;
-    const { error, list, isLoading, isReady } = this.state;
+    const { block, _pages = {} } = this.props;
+    const { error, list, isLoading } = this.state;
     const blocks = list.map(item => morph(block, item));
 
+    let ret;
     if (error) {
-      return <div>Can't get {this.props.list}. Does the remote file/service exist?</div>
+      ret = <div>Can't get {this.props.list}. Does the remote file/service exist?</div>;
     } else if (isLoading) {
-      return <Knocking />;
+      ret = <Knocking />;
     } else if (list.length === 0) {
-      return <div>Looks like your list is empty, try adding some data to it!</div>;
+      ret = <div>Looks like your list is empty, try adding some data to it!</div>;
     } else {
-      return <div {..._pages}>{this.context.renderBlocks(blocks, `${_pages}/props/block`)}</div>;
+      ret = (
+        <div {..._pages}>
+          {this.context.renderBlocks(blocks, `${_pages.path}/props/block`)}
+        </div>
+      );
     }
+    return ret;
   }
 }
 
@@ -130,12 +144,15 @@ List.defaultProps = {
 };
 
 List.description = `For things that need to be repeated :).
-Within your block you get access to a special keyword item which is a reference to every item on the list. Use it to show dynamic data. PS: A list can take data from outside the panel, e.g.: props.blocks would use the blocks given by the props. You can test this in pages by setting blocks: [] in states. If the list is a URL, we will fetch the data for you! :)`;
+Within your block you get access to a special keyword item which is a reference to every item on
+the list. Use it to show dynamic data. PS: A list can take data from outside the panel, e.g.:
+props.blocks would use the blocks given by the props. You can test this in pages by setting
+blocks: [] in states. If the list is a URL, we will fetch the data for you! :)`;
 
 List.propTypes = {
   block: blockShape.isRequired,
-
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
+  _pages: PropTypes.object
 };
 
 export default List;
