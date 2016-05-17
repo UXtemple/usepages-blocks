@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Waiting from 'waiting';
 
 const Knocking = ({_pages={}, style={}, size}) => (
-  <div style={style} {...pages}>
+  <div style={style} {..._pages}>
     <Waiting color={style.color} size={size} />
   </div>
 );
