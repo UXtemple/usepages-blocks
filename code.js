@@ -84,7 +84,7 @@ export default class Code extends Component {
           }
         `}</style>
 
-        <div id={id} style={{...style, ...props.style}}></div>
+        <div id={id} style={{ ...style, ...props.style }}></div>
       </div>
     );
   }
@@ -96,9 +96,9 @@ Code.defaultProps = {
   mode: 'json',
   theme: 'idle_fingers',
   wrap: 40
-}
+};
 
 const style = {
   height: 250,
   width: '100%'
-}
+};

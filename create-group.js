@@ -4,10 +4,10 @@ import GoTo from './go-to';
 import OnClick from './on-click';
 import React, { Component, PropTypes } from 'react';
 
-export default function createGroup(name, style) {
+export default function createGroup(name, groupStyle) {
   class Group extends Component {
     render() {
-      const { blocks, children, goTo, onClick, style: baseStyle, teleportTo, _pages={}, ...rest } = this.props;
+      const { blocks, children, goTo, onClick, style, teleportTo, _pages = {}, ...rest } = this.props;
       const { renderBlocks } = this.context;
 
       const baseProps = {};
@@ -26,9 +26,17 @@ export default function createGroup(name, style) {
         Base = 'div';
       }
 
+      const finalStyle = {
+        ...style,
+        ...groupStyle,
+        flexWrap: 'wrap'
+      };
+
       return (
-        <Base style={{...baseStyle, ...style, flexWrap: 'wrap'}} {...rest} {...baseProps} {..._pages}k>
-          {children || (typeof renderBlocks === 'function' && renderBlocks(blocks, `${_pages.path}/props/blocks`))}
+        <Base style={finalStyle} {...rest} {...baseProps} {..._pages}>
+          {children || (
+            typeof renderBlocks === 'function' && renderBlocks(blocks, `${_pages.path}/props/blocks`)
+          )}
         </Base>
       );
     }
@@ -46,26 +54,23 @@ export default function createGroup(name, style) {
   };
 
   Group.description = `${name} lets you nest elements. They also have some super powers :).
-Use the teleportTo prop to connect to another panel, onClick prop to turn this into a button that runs a function when clicked; or the goTo prop to link to an external website.`;
+Use the teleportTo prop to connect to another panel, onClick prop to turn this into a button
+that runs a function when clicked; or the goTo prop to link to an external website.`;
 
   Group.displayName = name;
 
   Group.propTypes = {
     blocks: PropTypes.arrayOf(blockShape).isRequired,
-
+    children: PropTypes.any,
     goTo: PropTypes.string,
-
     onClick: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func
     ]),
-
+    _pages: PropTypes.object,
     style: PropTypes.object,
-
     styleActive: PropTypes.object,
-
     styleHover: PropTypes.object,
-
     teleportTo: PropTypes.string
   };
 
