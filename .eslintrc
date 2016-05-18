@@ -10,7 +10,7 @@
   },
   "rules": {
     "comma-dangle": 0,
-    "import/no-unresolved": [2, {ignore: ['panels-ui', 'react']}],
+    "import/no-unresolved": [2, {ignore: ['dot-key', 'panels-ui', 'react']}],
     "no-use-before-define": 0,
     "no-underscore-dangle": 0
   }

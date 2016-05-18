@@ -1,4 +1,5 @@
 import blockShape from './block-shape';
+import dotKey from 'dot-key';
 import Knocking from './knocking';
 import React, { Component, PropTypes } from 'react';
 
@@ -9,25 +10,24 @@ function morph(block, item) {
   };
 }
 
-function raw(props = {}, superProps = {}) {
+function raw(props = {}, item = {}) {
   const rawProps = {};
 
   Object.keys(props).forEach(key => {
-    const match = (
-      typeof props[key] === 'string' &&
-      props[key].match(/^item\.(.+)/) ||
-      props[key] === 'item'
-    );
+    const match = typeof props[key] === 'string' && props[key].match(/^item\.(.+)/);
+    const wholeItem = props[key] === 'item';
 
-    if (match) {
-      rawProps[key] = superProps[match[1]];
+    if (wholeItem) {
+      rawProps[key] = item;
+    } else if (match) {
+      rawProps[key] = dotKey(match[1], item);
     } else {
       if (key === 'blocks') {
-        rawProps.blocks = props.blocks.map(block => morph(block, superProps));
+        rawProps.blocks = props.blocks.map(block => morph(block, item));
       } else if (key === 'props') {
-        rawProps.props = raw(props.props, superProps);
+        rawProps.props = raw(props.props, item);
       } else {
-        rawProps[key] = props[key];
+        rawProps[key] = dotKey(key, props);
       }
     }
   });
