@@ -102,7 +102,7 @@ class List extends Component {
   }
 
   render() {
-    const { block, _pages = {} } = this.props;
+    const { block, _pages = {}, style } = this.props;
     const { error, list, isLoading } = this.state;
     const blocks = list.map(item => morph(block, item));
 
@@ -115,7 +115,7 @@ class List extends Component {
       ret = <div>Looks like your list is empty, try adding some data to it!</div>;
     } else {
       ret = (
-        <div {..._pages}>
+        <div {..._pages} style={style}>
           {this.context.renderBlocks(blocks, `${_pages.path}/props/block`)}
         </div>
       );
@@ -152,7 +152,8 @@ blocks: [] in states. If the list is a URL, we will fetch the data for you! :)`;
 List.propTypes = {
   block: blockShape.isRequired,
   list: PropTypes.array.isRequired,
-  _pages: PropTypes.object
+  _pages: PropTypes.object,
+  style: PropTypes.object
 };
 
 export default List;
