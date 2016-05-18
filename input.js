@@ -3,32 +3,44 @@ import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
 class Input extends Component {
-  render() {
-    const { props } = this;
+  constructor(props) {
+    super(props);
 
-    const backgroundColor = (props.style && props.style.backgroundColor) || 'transparent';
-    const className = `Input-${uniqueId()}`;
-    const color = (props.style && props.style.color) || 'black';
-    const _pages = props._pages || {};
+    this.className = `Input-${uniqueId()}`;
+  }
+
+  render() {
+    const { className } = this;
+    const { onEnter, _pages = {}, style, styleHover, styleWrapper, ...rest } = this.props;
+
+    const backgroundColor = (style && style.backgroundColor) || 'transparent';
+    const color = (style && style.color) || 'black';
     let inlineStyle = `.${className}:-webkit-autofill {
       background-color: ${backgroundColor} !important;
       box-shadow: 0 0 0px 1000px ${backgroundColor} inset;
       color: ${color} !important;
     }`;
 
-    if (props.styleHover) {
-      inlineStyle = `${inlineStyle} .${className}:hover {${toCSS(props.styleHover)}}`;
+    if (styleHover) {
+      inlineStyle = `${inlineStyle} .${className}:hover {${toCSS(styleHover)}}`;
+    }
+
+    let onKeyUp;
+    if (typeof onEnter !== 'undefined') {
+      const finalOnEnter = typeof onEnter === 'function' ? onEnter : () => console.log(onEnter);
+      onKeyUp = event => event.key === 'Enter' && finalOnEnter();
     }
 
     return (
-      <div style={props.styleWrapper} {..._pages}>
+      <div style={styleWrapper} {..._pages}>
         <input
+          {...rest}
           autoComplete='off'
           className={className}
-          placeholder={props.placeholder}
+          onKeyUp={onKeyUp}
           ref='input'
-          style={props.style}
-          type={props.type} />
+          style={style}
+        />
         <style>
           {inlineStyle}
         </style>
@@ -36,9 +48,6 @@ class Input extends Component {
     );
   }
 }
-
-Input.description = `This is how you enter data.
-The type prop tells how this behaves, it's a text field by default but it could be email, password, etc.`;
 
 Input.defaultProps = {
   placeholder: '',
