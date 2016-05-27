@@ -2,48 +2,53 @@ import { Teleport } from 'panels-ui';
 import blockShape from './block-shape';
 import GoTo from './go-to';
 import OnClick from './on-click';
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 export default function createGroup(name, groupStyle) {
-  class Group extends Component {
-    render() {
-      const { blocks, children, goTo, onClick, style, teleportTo, _pages = {}, ...rest } = this.props;
-      const { renderBlocks } = this.context;
-
-      const baseProps = {};
-      let Base;
-      if (teleportTo) {
-        Base = Teleport;
-        baseProps.to = teleportTo;
-      } else if (goTo) {
-        Base = GoTo;
-        baseProps.href = goTo;
-        baseProps.target = '_blank';
-      } else if (onClick) {
-        Base = OnClick;
-        baseProps.onClick = onClick;
-      } else {
-        Base = 'div';
-      }
-
-      const finalStyle = {
-        ...style,
-        ...groupStyle,
-        flexWrap: 'wrap'
+  const Group = ({ children, goTo, onClick, style, teleportTo, ...rest }, { _pagesIsSelecting }) => {
+    const baseProps = {};
+    if (_pagesIsSelecting) {
+      baseProps._pagesIsSelecting = true;
+      baseProps.onClick = event => {
+        if (event) {
+          event.preventDefault();
+        }
+        return true;
       };
-
-      return (
-        <Base style={finalStyle} {...rest} {...baseProps} {..._pages}>
-          {children || (
-            typeof renderBlocks === 'function' && renderBlocks(blocks, `${_pages.path}/props/blocks`)
-          )}
-        </Base>
-      );
     }
-  }
+
+    let Base;
+    if (teleportTo) {
+      Base = Teleport;
+      baseProps.to = teleportTo;
+    } else if (goTo) {
+      Base = GoTo;
+      baseProps.href = goTo;
+      baseProps.target = '_blank';
+    } else if (onClick) {
+      Base = OnClick;
+      if (!baseProps.onClick) {
+        baseProps.onClick = onClick;
+      }
+    } else {
+      Base = 'div';
+    }
+
+    const finalStyle = {
+      flexWrap: 'wrap',
+      ...groupStyle,
+      ...style
+    };
+
+    return (
+      <Base style={finalStyle} {...rest} {...baseProps}>
+        {children}
+      </Base>
+    );
+  };
 
   Group.contextTypes = {
-    renderBlocks: PropTypes.func
+    _pagesIsSelecting: PropTypes.bool
   };
 
   Group.defaultProps = {
@@ -52,10 +57,6 @@ export default function createGroup(name, groupStyle) {
     styleActive: {},
     styleHover: {}
   };
-
-  Group.description = `${name} lets you nest elements. They also have some super powers :).
-Use the teleportTo prop to connect to another panel, onClick prop to turn this into a button
-that runs a function when clicked; or the goTo prop to link to an external website.`;
 
   Group.displayName = name;
 
@@ -67,7 +68,6 @@ that runs a function when clicked; or the goTo prop to link to an external websi
       PropTypes.string,
       PropTypes.func
     ]),
-    _pages: PropTypes.object,
     style: PropTypes.object,
     styleActive: PropTypes.object,
     styleHover: PropTypes.object,

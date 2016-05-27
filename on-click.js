@@ -1,5 +1,5 @@
-import copyToClipboard from './copy-to-clipboard';
-import React, { Component } from 'react';
+/* eslint-disable no-console */
+import React, { Component, PropTypes } from 'react';
 import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
@@ -9,48 +9,18 @@ export default class OnClick extends Component {
   constructor(props) {
     super(props);
 
+    this.className = `OnClick-${uniqueId()}`;
     this.state = {
       active: false
     };
   }
 
-  bindOnClick(onClick) {
-    let finalOnClick;
-
-    if (/^copy:/.test(onClick)) {
-      const from = onClick.match(/^copy:(.+)/)[1];
-
-      finalOnClick = () => {
-        const $el = document.querySelector(from);
-        const $editor = Array.from($el.childNodes).find($c => $c.classList.contains('ace_editor'));
-        const text = $editor ? ace.edit($editor.id).getValue() : $el.innerText;
-
-        copyToClipboard(text);
-      };
-    } else if (typeof onClick === 'function') {
-      finalOnClick = onClick;
-    } else {
-      finalOnClick = () => console.log(onClick);
-    }
-
-    this.onClick = event => {
-      finalOnClick(event);
-
-      this.setState({
-        active: true
-      });
-
-      this.onClickTimeout = setTimeout(() => {
-        this.setState({
-          active: false
-        });
-        this.onClickTimeout = null;
-      }, RESET_ACTIVE_TIMEOUT);
-    }
+  componentWillMount() {
+    this.bindOnClick(this.props.onClick, this.props._inPages);
   }
 
-  componentWillMount() {
-    this.bindOnClick(this.props.onClick);
+  componentWillUpdate(nextProps) {
+    this.bindOnClick(nextProps.onClick, nextProps._inPages);
   }
 
   componentWillUnmount() {
@@ -59,14 +29,31 @@ export default class OnClick extends Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
-    this.bindOnClick(nextProps.onClick);
+  bindOnClick(onClick, _inPages) {
+    const finalOnClick = typeof onClick === 'function' ? onClick : () => console.log(onClick);
+
+    this.onClick = event => {
+      finalOnClick(event);
+
+      if (!_inPages) {
+        this.setState({
+          active: true
+        });
+
+        this.onClickTimeout = setTimeout(() => {
+          this.setState({
+            active: false
+          });
+          this.onClickTimeout = null;
+        }, RESET_ACTIVE_TIMEOUT);
+      }
+    };
   }
 
   render() {
-    const { children, onClick, style, styleActive, styleHover, ...rest } = this.props;
     const { active } = this.state;
-    const className = `OnClick-${uniqueId()}`;
+    const { children, style, styleActive, styleHover, ...rest } = this.props;
+    const { className } = this;
 
     const inlineStyle = !active && styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
 
@@ -81,12 +68,27 @@ export default class OnClick extends Component {
     };
 
     return (
-      <button {...rest} className={className} disabled={active} onClick={() => this.onClick()} style={finalStyle}>
+      <button
+        {...rest}
+        className={className}
+        disabled={active}
+        onClick={this.onClick}
+        style={finalStyle}
+      >
+        <style>{inlineStyle}</style>
         {children}
-        <style>
-          {inlineStyle}
-        </style>
       </button>
     );
   }
 }
+OnClick.propTypes = {
+  children: PropTypes.array,
+  _inPages: PropTypes.bool,
+  onClick: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string
+  ]),
+  style: PropTypes.object,
+  styleActive: PropTypes.object,
+  styleHover: PropTypes.object
+};

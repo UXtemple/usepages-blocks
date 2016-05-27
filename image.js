@@ -26,10 +26,10 @@ class Image extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const { _pages = {}, text, src, style, styleLoading, styleWrapper } = this.props;
+    const { text, src, style, styleLoading, styleWrapper } = this.props;
 
     return (
-      <div style={styleWrapper} {..._pages}>
+      <div style={styleWrapper} data-block={this.props['data-block']}>
         {isLoading && <Knocking style={styleLoading} />}
         <img
           alt={text}
@@ -56,7 +56,7 @@ Image.defaultProps = {
 Image.description = "Add some text for when the image can't be displayed.";
 
 Image.propTypes = {
-  _pages: PropTypes.object,
+  'data-block': PropTypes.string,
   src: PropTypes.string.isRequired,
   style: PropTypes.object,
   styleLoading: PropTypes.object,

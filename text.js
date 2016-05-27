@@ -1,10 +1,16 @@
 import React, { PropTypes } from 'react';
 
-const Text = ({element: Element='div', lineBreak, _pages={}, style, text}) => (
-  <Element style={style} {..._pages}>
-    {`${text}`.split('\n').map((t, i) => <div key={i} style={i ? {marginTop: lineBreak} : {}}>{t}</div>)}
-  </Element>
-);
+const Text = ({ 'data-block': dataBlock, element: Element = 'div', lineBreak, style, text }) => {
+  const styleLine = { marginTop: lineBreak };
+
+  return (
+    <Element data-block={dataBlock} style={style}>
+      {`${text}`.split('\n').map((t, i) => (
+        <div key={i} style={i ? styleLine : undefined}>{t}</div>
+      ))}
+    </Element>
+  );
+};
 
 Text.defaultProps = {
   lineBreak: 10,
@@ -12,15 +18,11 @@ Text.defaultProps = {
   text: 'Write some text'
 };
 
-Text.description = `Write some text. Use multiplines by writing "\\n" like "New\\nline".`;
-
 Text.propTypes = {
+  'data-block': PropTypes.string,
   element: PropTypes.any,
-
   lineBreak: PropTypes.number,
-
   style: PropTypes.object,
-
   text: PropTypes.string.isRequired
 };
 
