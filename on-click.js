@@ -3,8 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
-const RESET_ACTIVE_TIMEOUT = 1000;
-
 export default class OnClick extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +34,8 @@ export default class OnClick extends Component {
       finalOnClick(event);
 
       if (!_inPages) {
+        event.stopPropagation();
+
         this.setState({
           active: true
         });
@@ -45,7 +45,7 @@ export default class OnClick extends Component {
             active: false
           });
           this.onClickTimeout = null;
-        }, RESET_ACTIVE_TIMEOUT);
+        }, this.props.styleActiveTimeout);
       }
     };
   }
@@ -81,6 +81,9 @@ export default class OnClick extends Component {
     );
   }
 }
+OnClick.defaultProps = {
+  styleActiveTimeout: 1000
+};
 OnClick.propTypes = {
   children: PropTypes.array,
   _inPages: PropTypes.bool,
@@ -90,5 +93,6 @@ OnClick.propTypes = {
   ]),
   style: PropTypes.object,
   styleActive: PropTypes.object,
+  styleActiveTimeout: PropTypes.number.isRequired,
   styleHover: PropTypes.object
 };
