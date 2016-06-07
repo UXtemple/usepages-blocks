@@ -11,7 +11,7 @@ class Input extends Component {
 
   render() {
     const { className } = this;
-    const { onEnter, _pages = {}, style, styleHover, styleWrapper, ...rest } = this.props;
+    const { onEnter, style, styleHover, styleWrapper, ...rest } = this.props;
 
     const backgroundColor = (style && style.backgroundColor) || 'transparent';
     const color = (style && style.color) || 'black';
@@ -28,11 +28,11 @@ class Input extends Component {
     let onKeyUp;
     if (typeof onEnter !== 'undefined') {
       const finalOnEnter = typeof onEnter === 'function' ? onEnter : () => console.log(onEnter);
-      onKeyUp = event => event.key === 'Enter' && finalOnEnter();
+      onKeyUp = event => event.key === 'Enter' && finalOnEnter(event);
     }
 
     return (
-      <div style={styleWrapper} {..._pages}>
+      <div style={styleWrapper}>
         <input
           {...rest}
           autoComplete='off'
