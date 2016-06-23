@@ -2,6 +2,7 @@
   "name": "usepages-blocks",
   "description": "blocks for usePages.today",
   "main": "cjs.js",
+  "jsnext:main": "index.js",
   "scripts": {
     "bundle": "rollup -c rollup.config.js",
     "postpublish": "rm -rf dist && git checkout package.json && git push && git push --tags",
@@ -48,7 +49,6 @@
     "react": "^15.0.0"
   },
   "dependencies": {
-    "json-stable-stringify": "^1.0.1",
     "mini-unique-id": "^1.0.1",
     "style-to-css": "^1.0.0",
     "waiting": "^1.0.0"
