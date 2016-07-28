@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import Waiting from 'waiting';
 
-const Knocking = ({_pages={}, style={}, size}) => (
-  <div style={style} {..._pages}>
+const Knocking = ({ style={}, size }) => (
+  <div style={style}>
     <Waiting color={style.color} size={size} />
   </div>
 );
@@ -14,11 +14,11 @@ Knocking.defaultProps = {
   size: 20
 };
 
-Knocking.description = `A handy loading indicator ;)`;
+Knocking.description = 'A handy loading indicator ;)';
 
 Knocking.propTypes = {
   style: PropTypes.object,
   size: PropTypes.number.isRequired
-}
+};
 
 export default Knocking;

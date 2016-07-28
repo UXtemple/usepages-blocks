@@ -29,7 +29,7 @@ class Image extends Component {
     const { text, src, style, styleLoading, styleWrapper } = this.props;
 
     return (
-      <div style={styleWrapper} data-block={this.props['data-block']}>
+      <div style={styleWrapper}>
         {isLoading && <Knocking style={styleLoading} />}
         <img
           alt={text}

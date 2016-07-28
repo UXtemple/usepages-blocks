@@ -2,7 +2,7 @@ import Code from './code';
 import React from 'react';
 
 export default ({ 'data-block': dataBlock, ...props }) => {
-  const code = JSON.stringify(props, {space: '\t'});
+  const code = JSON.stringify(props, { space: '\t' });
 
   return (
     <div data-block={dataBlock} style={style.wrapper}>

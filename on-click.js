@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import React, { Component, PropTypes } from 'react';
 import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
 export default class OnClick extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     this.className = `OnClick-${uniqueId()}`;
     this.state = {
@@ -14,11 +13,11 @@ export default class OnClick extends Component {
   }
 
   componentWillMount() {
-    this.bindOnClick(this.props.onClick, this.props._inPages);
+    this.bindOnClick(this.props.onClick);
   }
 
   componentWillUpdate(nextProps) {
-    this.bindOnClick(nextProps.onClick, nextProps._inPages);
+    this.bindOnClick(nextProps.onClick);
   }
 
   componentWillUnmount() {
@@ -27,32 +26,34 @@ export default class OnClick extends Component {
     }
   }
 
-  bindOnClick(onClick, _inPages) {
+  bindOnClick(onClick) {
+    /* eslint-disable no-console */
     const finalOnClick = typeof onClick === 'function' ? onClick : () => console.log(onClick);
 
     this.onClick = event => {
       finalOnClick(event);
 
-      if (!_inPages) {
-        event.stopPropagation();
+      event.stopPropagation();
 
+      this.setState({
+        active: true
+      });
+
+      this.onClickTimeout = setTimeout(() => {
         this.setState({
-          active: true
+          active: false
         });
-
-        this.onClickTimeout = setTimeout(() => {
-          this.setState({
-            active: false
-          });
-          this.onClickTimeout = null;
-        }, this.props.styleActiveTimeout);
-      }
+        this.onClickTimeout = null;
+      }, this.props.styleActiveTimeout);
     };
   }
 
   render() {
     const { active } = this.state;
-    const { children, style, styleActive, styleHover, ...rest } = this.props;
+    /* eslint-disable no-unused-vars */
+    const {
+      children, _ref, style, styleActive, styleActiveTimeout, styleHover, ...rest
+    } = this.props;
     const { className } = this;
 
     const inlineStyle = !active && styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
@@ -66,6 +67,10 @@ export default class OnClick extends Component {
       outline: 0,
       cursor: 'pointer'
     };
+
+    if (_ref) {
+      rest.ref = _ref;
+    }
 
     return (
       <button
@@ -85,12 +90,11 @@ OnClick.defaultProps = {
   styleActiveTimeout: 1000
 };
 OnClick.propTypes = {
-  children: PropTypes.array,
-  _inPages: PropTypes.bool,
   onClick: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string
   ]),
+  _ref: PropTypes.func,
   style: PropTypes.object,
   styleActive: PropTypes.object,
   styleActiveTimeout: PropTypes.number.isRequired,

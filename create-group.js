@@ -1,5 +1,4 @@
 import { Teleport } from 'panels-ui';
-import blockShape from './block-shape';
 import GoTo from './go-to';
 import OnClick from './on-click';
 import React, { Component, PropTypes } from 'react';
@@ -7,12 +6,30 @@ import React, { Component, PropTypes } from 'react';
 export default function createGroup(name, groupStyle) {
   class Group extends Component {
     render() {
-      const { children, goTo, onClick, style, teleportTo, ...rest } = this.props;
-      const { _pagesIsSelecting } = this.context;
-      const baseProps = {};
-      if (_pagesIsSelecting) {
-        baseProps._pagesIsSelecting = true;
-        baseProps.onClick = event => {
+      const { children, goTo, style, teleportTo, ...props } = this.props;
+      const { pages } = this.context;
+
+      let Base;
+      if (teleportTo) {
+        Base = Teleport;
+        props.to = teleportTo;
+      } else if (goTo) {
+        Base = GoTo;
+        props.href = goTo;
+      } else if (props.onClick) {
+        Base = OnClick;
+      } else {
+        Base = 'div';
+        if (props._ref) {
+          props.ref = _ref;
+          delete props._ref;
+        }
+        delete props.styleActive;
+        delete props.styleHover;
+      }
+
+      if (pages && pages.isSelecting) {
+        props.onClick = event => {
           if (event) {
             event.preventDefault();
           }
@@ -20,34 +37,15 @@ export default function createGroup(name, groupStyle) {
         };
       }
 
-      let Base;
-      if (teleportTo) {
-        Base = Teleport;
-        baseProps.to = teleportTo;
-      } else if (goTo) {
-        Base = GoTo;
-        baseProps.href = goTo;
-        baseProps.target = '_blank';
-      } else if (onClick) {
-        Base = OnClick;
-        if (!baseProps.onClick) {
-          baseProps.onClick = onClick;
-        }
-      } else {
-        baseProps.ref = $e => {
-          this.$e = $e;
-        };
-        Base = 'div';
-      }
-
-      const finalStyle = {
-        flexWrap: 'wrap',
-        ...groupStyle,
-        ...style
-      };
-
       return (
-        <Base style={finalStyle} {...rest} {...baseProps}>
+        <Base
+          {...props}
+          style={{
+            flexWrap: 'wrap',
+            ...groupStyle,
+            ...style
+          }}
+        >
           {children}
         </Base>
       );
@@ -55,11 +53,12 @@ export default function createGroup(name, groupStyle) {
   }
 
   Group.contextTypes = {
-    _pagesIsSelecting: PropTypes.bool
+    pages: PropTypes.shape({
+      isSelecting: PropTypes.bool
+    })
   };
 
   Group.defaultProps = {
-    blocks: [],
     style: {},
     styleActive: {},
     styleHover: {}
@@ -68,13 +67,13 @@ export default function createGroup(name, groupStyle) {
   Group.displayName = name;
 
   Group.propTypes = {
-    blocks: PropTypes.arrayOf(blockShape).isRequired,
     children: PropTypes.any,
     goTo: PropTypes.string,
     onClick: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func
     ]),
+    _ref: PropTypes.func,
     style: PropTypes.object,
     styleActive: PropTypes.object,
     styleHover: PropTypes.object,

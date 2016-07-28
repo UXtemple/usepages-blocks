@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const Text = ({ 'data-block': dataBlock, element: Element = 'div', lineBreak, style, text }) => {
+const Text = ({ 'data-block': dataBlock, element: Element, lineBreak, style, text }) => {
   const styleLine = { marginTop: lineBreak };
 
   return (
@@ -13,6 +13,7 @@ const Text = ({ 'data-block': dataBlock, element: Element = 'div', lineBreak, st
 };
 
 Text.defaultProps = {
+  element: 'div',
   lineBreak: 10,
   style: {},
   text: 'Write some text'

@@ -1,20 +1,36 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
-const GoTo = props => {
-  const { styleHover, ...rest } = props;
-  const className = `GoTo-${uniqueId()}`;
+export default class GoTo extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.className = `GoTo-${uniqueId()}`;
+  }
 
-  const inlineStyle = props.styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
+  render() {
+    const { className, props: { styleActive, styleHover, ...props } } = this;
 
-  return (
-    <a {...rest} className={className} target='_blank'>
-      {props.children}
-      <style>
-        {inlineStyle}
-      </style>
-    </a>
-  );
+    const inlineStyle = styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
+
+    if (props._ref) {
+      props.ref = _ref;
+    }
+
+    return (
+      <a {...props} className={className} target={'_blank'}>
+        {props.children}
+        <style>
+          {inlineStyle}
+        </style>
+      </a>
+    );
+  }
 }
-export default GoTo;
+GoTo.propTypes = {
+  href: PropTypes.string.isRequired,
+  _ref: PropTypes.func,
+  style: PropTypes.object,
+  styleActive: PropTypes.object,
+  styleHover: PropTypes.object
+};
