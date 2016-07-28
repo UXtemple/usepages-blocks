@@ -20,7 +20,7 @@ Text.defaultProps = {
 };
 
 Text.propTypes = {
-  'data-block': PropTypes.string,
+  'data-block': PropTypes.number,
   element: PropTypes.any,
   lineBreak: PropTypes.number,
   style: PropTypes.object,
