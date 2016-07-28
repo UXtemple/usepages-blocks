@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import Waiting from 'waiting';
 
-const Knocking = ({ style={}, size }) => (
-  <div style={style}>
+const Knocking = ({ 'data-block': dataBlock, size, style = {} }) => (
+  <div data-block={dataBlock} style={style}>
     <Waiting color={style.color} size={size} />
   </div>
 );
@@ -17,6 +17,7 @@ Knocking.defaultProps = {
 Knocking.description = 'A handy loading indicator ;)';
 
 Knocking.propTypes = {
+  dataBlock: PropTypes.number,
   style: PropTypes.object,
   size: PropTypes.number.isRequired
 };
