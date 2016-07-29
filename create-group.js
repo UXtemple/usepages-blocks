@@ -21,7 +21,7 @@ export default function createGroup(name, groupStyle) {
       } else {
         Base = 'div';
         if (props._ref) {
-          props.ref = _ref;
+          props.ref = props._ref;
           delete props._ref;
         }
         delete props.styleActive;
