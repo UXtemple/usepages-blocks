@@ -37,14 +37,13 @@ export default class Textarea extends Component {
 
         <textarea
           data-block={props['data-block']}
+          defaultValue={props.text}
           id={id}
           style={props.style}
           placeholder={props.placeholder}
           ref={props._ref}
           rows={props.rows}
-        >
-          {props.text}
-        </textarea>
+        />
       </div>
     );
   }
