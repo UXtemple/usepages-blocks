@@ -57,7 +57,7 @@ Textarea.defaultProps = {
 };
 Textarea.propTypes = {
   placeholder: PropTypes.string,
-  rows: PropTypes.numbers,
+  rows: PropTypes.number,
   style: PropTypes.object,
   styleFocus: PropTypes.object,
   stylePlaceholder: PropTypes.object,
