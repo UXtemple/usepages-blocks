@@ -7,6 +7,7 @@ export Knocking from './knocking';
 export List from './list';
 export Preview from './preview';
 export Text from './text';
+export Textarea from './textarea';
 export Unknown from './unknown';
 export Vertical from './vertical';
 export Vimeo from './vimeo';

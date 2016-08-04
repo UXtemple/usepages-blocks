@@ -2,26 +2,44 @@ import React, { Component, PropTypes } from 'react';
 import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
+const PLACEHOLDER_PREFIXES = [
+  '::-webkit-input-placeholder',
+  '::-moz-placeholder',
+  ':-ms-input-placeholder',
+  ':placeholder-shown'
+];
+
 export default class Input extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.className = `Input-${uniqueId()}`;
+  constructor(...args) {
+    super(...args);
+    this.id = `Input-${uniqueId()}`;
   }
 
   render() {
-    const { className } = this;
-    const { onEnter, _ref, style, styleHover, styleWrapper, ...rest } = this.props;
+    const { id } = this;
+    const {
+      onEnter, _ref, style, styleFocus, styleHover, stylePlaceholder, styleWrapper, ...rest
+    } = this.props;
 
     const backgroundColor = (style && style.backgroundColor) || 'transparent';
     const color = (style && style.color) || 'black';
-    let inlineStyle = `.${className}:-webkit-autofill {
+    const inlineStyle = [`#${id}:-webkit-autofill {
       background-color: ${backgroundColor} !important;
       box-shadow: 0 0 0px 1000px ${backgroundColor} inset;
       color: ${color} !important;
-    }`;
+    }`];
 
+
+    if (stylePlaceholder) {
+      PLACEHOLDER_PREFIXES.forEach(prefix => {
+        inlineStyle.push(`#${id}${prefix} {${toCSS(stylePlaceholder)}}`);
+      });
+    }
     if (styleHover) {
-      inlineStyle = `${inlineStyle} .${className}:hover {${toCSS(styleHover)}}`;
+      inlineStyle.push(`${inlineStyle} #${id}:hover {${toCSS(styleHover)}}`);
+    }
+    if (styleFocus) {
+      inlineStyle.push(`#${id}:focus {${toCSS(styleFocus)}}`);
     }
 
     let onKeyUp;
@@ -33,15 +51,15 @@ export default class Input extends Component {
 
     return (
       <div style={styleWrapper}>
+        <style>{inlineStyle.join('\n')}</style>
         <input
           {...rest}
           autoComplete="off"
-          className={className}
+          id={id}
           onKeyUp={onKeyUp}
           ref={_ref}
           style={style}
         />
-        <style>{inlineStyle}</style>
       </div>
     );
   }
@@ -60,7 +78,9 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   _ref: PropTypes.func,
   style: PropTypes.object,
+  styleFocus: PropTypes.object,
   styleHover: PropTypes.object,
+  stylePlaceholder: PropTypes.object,
   styleWrapper: PropTypes.object,
   type: PropTypes.string.isRequired
 };
