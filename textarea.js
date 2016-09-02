@@ -16,19 +16,26 @@ export default class Textarea extends Component {
   }
 
   render() {
-    const { id, props } = this;
+    const { id } = this;
+
+    const {
+      stylePlaceholder, styleHover, styleFocus, styleDisabled, ...rest
+    } = this.props;
 
     const inlineStyle = [];
-    if (props.stylePlaceholder) {
+    if (stylePlaceholder) {
       PLACEHOLDER_PREFIXES.forEach(prefix => {
-        inlineStyle.push(`#${id}${prefix} {${toCSS(props.stylePlaceholder)}}`);
+        inlineStyle.push(`#${id}${prefix} {${toCSS(stylePlaceholder)}}`);
       });
     }
-    if (props.styleHover) {
-      inlineStyle.push(`${inlineStyle} #${id}:hover {${toCSS(props.styleHover)}}`);
+    if (styleHover) {
+      inlineStyle.push(`${inlineStyle} #${id}:hover {${toCSS(styleHover)}}`);
     }
-    if (props.styleFocus) {
-      inlineStyle.push(`#${id}:focus {${toCSS(props.styleFocus)}}`);
+    if (styleFocus) {
+      inlineStyle.push(`#${id}:focus {${toCSS(styleFocus)}}`);
+    }
+    if styleDisabled) {
+      inlineStyle.push(`#${id}:disabled {${toCSS(styleDisabled)}}`);
     }
 
     return (
@@ -36,13 +43,10 @@ export default class Textarea extends Component {
         <style>{inlineStyle.join('\n')}</style>
 
         <textarea
-          data-block={props['data-block']}
+          {...rest}
           defaultValue={props.text}
           id={id}
-          style={props.style}
-          placeholder={props.placeholder}
           ref={props._ref}
-          rows={props.rows}
         />
       </div>
     );
@@ -51,14 +55,17 @@ export default class Textarea extends Component {
 
 Textarea.defaultProps = {
   style: {},
+  styleDisabled: {},
   styleFocus: {},
   stylePlaceholder: {},
   text: ''
 };
 Textarea.propTypes = {
+  disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
   style: PropTypes.object,
+  styleDisabled: PropTypes.object,
   styleFocus: PropTypes.object,
   stylePlaceholder: PropTypes.object,
   text: PropTypes.string.isRequired
