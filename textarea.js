@@ -19,7 +19,7 @@ export default class Textarea extends Component {
     const { id } = this;
 
     const {
-      stylePlaceholder, styleHover, styleFocus, styleDisabled, ...rest
+      _ref, stylePlaceholder, styleHover, styleFocus, styleDisabled, text, ...rest
     } = this.props;
 
     const inlineStyle = [];
@@ -44,9 +44,9 @@ export default class Textarea extends Component {
 
         <textarea
           {...rest}
-          defaultValue={props.text}
+          defaultValue={text}
           id={id}
-          ref={props._ref}
+          ref={_ref}
         />
       </div>
     );
