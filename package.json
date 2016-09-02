@@ -52,5 +52,6 @@
     "mini-unique-id": "^1.0.1",
     "style-to-css": "^1.0.0",
     "waiting": "^1.0.0"
-  }
+  },
+  "version": "3.4.4"
 }

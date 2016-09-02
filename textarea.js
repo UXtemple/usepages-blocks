@@ -34,7 +34,7 @@ export default class Textarea extends Component {
     if (styleFocus) {
       inlineStyle.push(`#${id}:focus {${toCSS(styleFocus)}}`);
     }
-    if styleDisabled) {
+    if (styleDisabled) {
       inlineStyle.push(`#${id}:disabled {${toCSS(styleDisabled)}}`);
     }
 
