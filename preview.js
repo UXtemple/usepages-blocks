@@ -2,7 +2,7 @@ import Code from './code';
 import React, { PropTypes } from 'react';
 import Text from './text';
 
-const Preview = ({ block: Block, props }) => {
+const Preview = ({ of: Block, props }) => {
   if (typeof Block === 'function') {
     return <Block {...props} />;
   } else {
