@@ -67,7 +67,7 @@ export default function createGroup(name, groupStyle) {
   Group.displayName = name;
 
   Group.propTypes = {
-    children: PropTypes.any,
+    blocks: PropTypes.any,
     goTo: PropTypes.string,
     onClick: PropTypes.oneOfType([
       PropTypes.string,

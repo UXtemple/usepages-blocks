@@ -56,7 +56,6 @@ Image.defaultProps = {
 Image.description = "Add some text for when the image can't be displayed.";
 
 Image.propTypes = {
-  'data-block': PropTypes.number,
   src: PropTypes.string.isRequired,
   style: PropTypes.object,
   styleLoading: PropTypes.object,

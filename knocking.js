@@ -17,7 +17,6 @@ Knocking.defaultProps = {
 Knocking.description = 'A handy loading indicator ;)';
 
 Knocking.propTypes = {
-  dataBlock: PropTypes.number,
   style: PropTypes.object,
   size: PropTypes.number.isRequired
 };

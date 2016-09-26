@@ -19,7 +19,6 @@ Text.defaultProps = {
 };
 
 Text.propTypes = {
-  'data-block': PropTypes.number,
   lineBreak: PropTypes.number,
   style: PropTypes.object,
   text: PropTypes.string.isRequired

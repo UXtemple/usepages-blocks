@@ -1,3 +1,12 @@
-const List = () => null;
+import { PropTypes } from 'react'
 
-export default List;
+const List = () => null
+
+List.propTypes = {
+  from: PropTypes.string,
+  of: PropTypes.object,
+  item: PropTypes.string,
+  variable: PropTypes.string
+}
+
+export default List
