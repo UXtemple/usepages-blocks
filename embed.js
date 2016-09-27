@@ -1,21 +1,9 @@
-import React, { Component } from 'react';
-import Waiting from 'waiting';
-
-const OverCover = props => {
-  const overCoverStyle = {
-    ...style.overCover,
-    height: props.height,
-    left: `calc(50% - ${props.width/2}px)`,
-    top: `calc(50% - ${props.height/2}px)`,
-    width: props.width
-  };
-
-  return <img src={props.src} style={props.style} />;
-}
+import React, { Component, PropTypes } from 'react';
+import Knocking from './knocking';
 
 class Embed extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context)
 
     this.state = {
       error: !!props.src === false,
@@ -55,22 +43,17 @@ class Embed extends Component {
 
   render() {
     const { data, error, isLoading, isReady, showCover } = this.state;
-    const { height, overCover, _pages={}, width } = this.props;
-    const embedStyle = {
-      height,
-      width,
-      ...this.props.style
-    };
-    let ret;
+    const { overCover, style, styleCover, styleCoverWrapper, styleKnocking } = this.props;
 
+    let ret;
     if (isLoading) {
-      ret = <Waiting />;
+      ret = <Knocking style={styleKnocking} />;
     } else if (isReady) {
       if (showCover) {
         ret = (
-          <div onClick={() => this.setState({showCover: false})} style={style.cover}>
-            { overCover && <OverCover {...overCover} />}
-            <img src={data.thumbnail_url} style={style.coverImage} />
+          <div onClick={() => this.setState({showCover: false})} style={styleCoverWrapper}>
+            { overCover && <img {...overCover} />}
+            <img src={data.thumbnail_url} style={styleCover} />
           </div>
         )
       } else {
@@ -80,12 +63,30 @@ class Embed extends Component {
       ret = <div>{typeof message === 'undefined' ?  'Do you src in your props?' : message}</div>;
     }
 
-    return <div style={embedStyle} {..._pages}>{ret}</div>;
+    return (
+      <div
+        data-block={this.props['data-block']}
+        style={style}
+      >
+        {ret}
+      </div>
+    );
   }
 }
 Embed.defaultProps = {
   overCover: false
 };
+Embed.propTypes = {
+  overCover: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool
+  ]),
+  style: PropTypes.object,
+  styleCover: PropTypes.object,
+  styleCoverWrapper: PropTypes.object,
+  styleKnocking: PropTypes.object
+}
+
 
 const style = {
   cover: {

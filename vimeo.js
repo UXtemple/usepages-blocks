@@ -1,5 +1,5 @@
 import Embed from './embed';
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 const whitelist = [
   'autopause',
@@ -39,4 +39,13 @@ function createSrc(props) {
   return `https://vimeo.com/api/oembed.json?${asParams(config)}`;
 }
 
-export default props => <Embed src={createSrc(props)} {...props} />;
+const Vimeo = props => <Embed src={createSrc(props)} {...props} />;
+Vimeo.propTypes = {
+  ...Embed.propTypes,
+  video: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
+}
+
+export default Vimeo
