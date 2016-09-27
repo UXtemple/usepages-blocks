@@ -43,13 +43,13 @@ class Embed extends Component {
 
   render() {
     const { data, error, isLoading, isReady, showCover } = this.state;
-    const { overCover, style, styleCover, styleCoverWrapper, styleKnocking } = this.props;
+    const { autoplay, overCover, style, styleCover, styleCoverWrapper, styleKnocking } = this.props;
 
     let ret;
     if (isLoading) {
       ret = <Knocking style={styleKnocking} />;
     } else if (isReady) {
-      if (showCover) {
+      if (showCover && !autoplay) {
         ret = (
           <div onClick={() => this.setState({showCover: false})} style={styleCoverWrapper}>
             { overCover && <img {...overCover} />}

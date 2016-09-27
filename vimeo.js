@@ -42,6 +42,7 @@ function createSrc(props) {
 const Vimeo = props => <Embed src={createSrc(props)} {...props} />;
 Vimeo.propTypes = {
   ...Embed.propTypes,
+  autoplay: PropTypes.bool,
   video: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
