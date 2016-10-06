@@ -36,15 +36,19 @@ export default function createGroup(name, groupStyle) {
       } else {
         const { _ref, styleActive, styleHover, ...rest } = props
 
-        const inlineStyle = styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : ''
+        let inlineStyle
+        if (Object.keys(styleHover).length) {
+          inlineStyle = <style>{`.${className}:hover {${toCSS(styleHover)}}`}</style>
+        }
 
         return (
           <div
             {...rest}
             className={className}
+            ref={_ref}
             style={finalStyle}
           >
-            <style>{inlineStyle}</style>
+            {inlineStyle}
             {children}
           </div>
         )
@@ -88,6 +92,7 @@ export default function createGroup(name, groupStyle) {
     blocks: PropTypes.any,
     goTo: PropTypes.string,
     onClick: PropTypes.oneOfType([
+      PropTypes.bool,
       PropTypes.string,
       PropTypes.func
     ]),

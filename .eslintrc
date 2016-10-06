@@ -9,6 +9,7 @@
     "ace": true
   },
   "rules": {
+    "semi": 0,
     "comma-dangle": 0,
     "import/no-unresolved": [2, {ignore: ['dot-key', 'panels-ui', 'react']}],
     "no-use-before-define": 0,

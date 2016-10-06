@@ -19,7 +19,7 @@ export default class OnClick extends Component {
     this.bindOnClick(this.props.onClick);
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.bindOnClick(nextProps.onClick);
 
     const manualActive = typeof nextProps.isActive === 'boolean'
@@ -66,7 +66,7 @@ export default class OnClick extends Component {
     const { isActive } = this.state;
     /* eslint-disable no-unused-vars */
     const {
-      children, _ref, style, styleActive, styleActiveTimeout, styleHover, ...rest
+      children, isActive: _isActive, _ref, style, styleActive, styleActiveTimeout, styleHover, ...rest
     } = this.props;
     const { className } = this;
 
