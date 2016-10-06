@@ -7,8 +7,11 @@ export default class OnClick extends Component {
     super(props, context);
 
     this.className = `OnClick-${uniqueId()}`;
+
+    const manualActive = typeof props.isActive === 'boolean'
     this.state = {
-      active: false
+      isActive: manualActive ? props.isActive : false,
+      manualActive
     };
   }
 
@@ -18,6 +21,15 @@ export default class OnClick extends Component {
 
   componentWillUpdate(nextProps) {
     this.bindOnClick(nextProps.onClick);
+
+    const manualActive = typeof nextProps.isActive === 'boolean'
+
+    if (manualActive) {
+      this.setState({
+        isActive: nextProps.isActive,
+        manualActive
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -35,30 +47,32 @@ export default class OnClick extends Component {
 
       event.stopPropagation();
 
-      this.setState({
-        active: true
-      });
-
-      this.onClickTimeout = setTimeout(() => {
+      if (!this.state.manualActive) {
         this.setState({
-          active: false
+          isActive: true
         });
-        this.onClickTimeout = null;
-      }, this.props.styleActiveTimeout);
+
+        this.onClickTimeout = setTimeout(() => {
+          this.setState({
+            isActive: false
+          });
+          this.onClickTimeout = null;
+        }, this.props.styleActiveTimeout);
+      }
     };
   }
 
   render() {
-    const { active } = this.state;
+    const { isActive } = this.state;
     /* eslint-disable no-unused-vars */
     const {
       children, _ref, style, styleActive, styleActiveTimeout, styleHover, ...rest
     } = this.props;
     const { className } = this;
 
-    const inlineStyle = !active && styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
+    const inlineStyle = !isActive && styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
 
-    const finalStyle = active ? {
+    const finalStyle = isActive ? {
       ...style,
       ...styleActive,
       outline: 0
@@ -76,7 +90,7 @@ export default class OnClick extends Component {
       <button
         {...rest}
         className={className}
-        disabled={active}
+        disabled={isActive}
         onClick={this.onClick}
         style={finalStyle}
       >
@@ -90,6 +104,7 @@ OnClick.defaultProps = {
   styleActiveTimeout: 1000
 };
 OnClick.propTypes = {
+  isActive: PropTypes.bool,
   onClick: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.string
