@@ -36,7 +36,7 @@ export default function createGroup(name, groupStyle) {
       } else {
         const { _ref, styleActive, styleHover, ...rest } = props
 
-        let inlineStyle
+        let inlineStyle = null
         if (Object.keys(styleHover).length) {
           inlineStyle = <style>{`.${className}:hover {${toCSS(styleHover)}}`}</style>
         }
@@ -66,6 +66,7 @@ export default function createGroup(name, groupStyle) {
       return (
         <Base
           {...props}
+          className={className}
           style={finalStyle}
         >
           {children}

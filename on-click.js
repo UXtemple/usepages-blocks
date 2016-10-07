@@ -3,20 +3,21 @@ import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
 export default class OnClick extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.className = `OnClick-${uniqueId()}`;
-
-    const manualActive = typeof props.isActive === 'boolean'
-    this.state = {
-      isActive: manualActive ? props.isActive : false,
-      manualActive
-    };
+  constructor(...args) {
+    super(...args)
+    this.state = {}
   }
 
   componentWillMount() {
-    this.bindOnClick(this.props.onClick);
+    const { props } = this
+
+    const manualActive = typeof props.isActive === 'boolean'
+    this.setState({
+      isActive: manualActive ? props.isActive : false,
+      manualActive
+    });
+
+    this.bindOnClick(props.onClick);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,11 +67,14 @@ export default class OnClick extends Component {
     const { isActive } = this.state;
     /* eslint-disable no-unused-vars */
     const {
-      children, isActive: _isActive, _ref, style, styleActive, styleActiveTimeout, styleHover, ...rest
+      children, className, isActive: _isActive, _ref, style, styleActive, styleActiveTimeout,
+      styleHover, ...rest
     } = this.props;
-    const { className } = this;
 
-    const inlineStyle = !isActive && styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
+    let inlineStyle = null
+    if (!isActive && Object.keys(styleHover).length) {
+      inlineStyle = <style>{`.${className}:hover {${toCSS(styleHover)}}`}</style>;
+    }
 
     const finalStyle = isActive ? {
       ...style,
@@ -94,7 +98,7 @@ export default class OnClick extends Component {
         onClick={this.onClick}
         style={finalStyle}
       >
-        <style>{inlineStyle}</style>
+        {inlineStyle}
         {children}
       </button>
     );

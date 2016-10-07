@@ -3,26 +3,22 @@ import toCSS from 'style-to-css';
 import uniqueId from 'mini-unique-id';
 
 export default class GoTo extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.className = `GoTo-${uniqueId()}`;
-  }
-
   render() {
-    const { className, props: { styleActive, styleHover, ...props } } = this;
+    const { children, className, _ref, styleActive, styleHover, ...props } = this.props;
 
-    const inlineStyle = styleHover ? `.${className}:hover {${toCSS(styleHover)}}` : '';
+    let inlineStyle = null
+    if (Object.keys(styleHover).length) {
+      inlineStyle = <style>{`.${className}:hover {${toCSS(styleHover)}}`}</style>;
+    }
 
-    if (props._ref) {
+    if (_ref) {
       props.ref = _ref;
     }
 
     return (
       <a {...props} className={className} target={'_blank'}>
-        {props.children}
-        <style>
-          {inlineStyle}
-        </style>
+        {inlineStyle}
+        {children}
       </a>
     );
   }
