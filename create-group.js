@@ -14,7 +14,7 @@ export default function createGroup(name, groupStyle) {
     }
 
     render() {
-      const { children, goTo, style, teleportTo, ...props } = this.props
+      const { children, className:moreClassName, goTo, style, teleportTo, ...props } = this.props
       const { className } = this
       const { pages } = this.context
 
@@ -44,7 +44,7 @@ export default function createGroup(name, groupStyle) {
         return (
           <div
             {...rest}
-            className={className}
+            className={`${className} ${moreClassName}`}
             ref={_ref}
             style={finalStyle}
           >
@@ -82,6 +82,7 @@ export default function createGroup(name, groupStyle) {
   }
 
   Group.defaultProps = {
+    className: '',
     style: {},
     styleActive: {},
     styleHover: {}

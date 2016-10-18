@@ -6,6 +6,7 @@ List.propTypes = {
   from: PropTypes.string,
   of: PropTypes.object,
   item: PropTypes.string,
+  style: PropTypes.object,
   variable: PropTypes.string
 }
 

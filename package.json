@@ -41,7 +41,7 @@
     "eslint-plugin-import": "^1.8.0",
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.1.1",
-    "rollup": "0.25.1",
+    "rollup": "0.36.3",
     "rollup-plugin-babel": "^2.3.9"
   },
   "peerDependencies": {
@@ -51,7 +51,8 @@
   "dependencies": {
     "mini-unique-id": "^1.0.1",
     "style-to-css": "^1.0.0",
-    "waiting": "^1.0.0"
+    "waiting": "^1.0.0",
+    "webfontloader": "^1.6.26"
   },
   "version": "3.4.4"
 }
