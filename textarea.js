@@ -62,6 +62,7 @@ Textarea.defaultProps = {
 };
 Textarea.propTypes = {
   disabled: PropTypes.bool,
+  maxlength: PropTypes.number,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
   style: PropTypes.object,
